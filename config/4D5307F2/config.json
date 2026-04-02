@@ -1,6 +1,6 @@
 {
     "progress_categories": {
-        "sdk": "XDK Code"
+        "game": "Game Code"
     },
     "asflags": [],
     "ldflags": [],
@@ -8,7 +8,11 @@
         "base": {
             "flags": [
                 "/nologo",
-                "/c"
+                "/Ods",
+                "/c",
+                "/GR",
+                "/EHsc",
+                "/I include"
             ]
         }
     }

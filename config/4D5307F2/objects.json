@@ -1,0 +1,10 @@
+{
+    "game": {
+        "progress_category": "game",
+        "mw_version": "X360/16.00.11886.00",
+        "cflags": "base",
+        "objects": {
+            "actor_mind_initialisegoal.cpp": "Matching"
+        }
+    }
+}

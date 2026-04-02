@@ -1,0 +1,21 @@
+Sections:
+	.rdata      type:rodata align:65536
+	.pdata      type:rodata align:65536
+	.text       type:code align:65536
+	.embsec0    type:code align:65536
+	.embsec1    type:code align:65536
+	.embsec2    type:code align:65536
+	.embsec3    type:code align:65536
+	.embsec4    type:code align:65536
+	.embsec5    type:code align:65536
+	.embsec6    type:code align:65536
+	.embsec7    type:code align:65536
+	.data       type:data align:65536
+	.XBMOVIE    type:data align:65536
+	.XEXID      type:data align:65536
+	.idata      type:data align:65536
+	.XBLD       type:data align:65536
+
+actor_mind_initialisegoal.cpp:
+	.pdata      start:0x82154828 end:0x82154830
+	.text       start:0x821BD630 end:0x821BD6CC

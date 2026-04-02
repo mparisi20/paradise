@@ -1,0 +1,5 @@
+# See config.example.yml for documentation.
+object: orig/4D5307F2/PinataParadiseR-org.xex
+symbols: config/4D5307F2/symbols.txt
+splits: config/4D5307F2/splits.txt
+pdb: orig/4D5307F2/PinataParadiseR.pdb
