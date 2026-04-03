@@ -1,0 +1,17 @@
+# https://editorconfig.org
+
+root = true
+
+[*]
+trim_trailing_whitespace = true
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+
+[*.{cpp,c,h,hpp}]
+indent_style = space
+indent_size = 2
+
+[config/4D5307F2/splits.txt]
+indent_style = tab
+tab_width = 4

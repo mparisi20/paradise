@@ -11,6 +11,10 @@ typedef int int32_t;
 
 #ifndef _MSC_VER
     #define __cdecl
+
+    #if __cplusplus < 201103L
+        #define nullptr 0
+    #endif
 #endif
 
 struct actorInst_s;
@@ -474,6 +478,13 @@ struct mlVec { /* Size=0xc */
   /* 0x0008 */ public: float z;
 };
 
+struct mlV4 { /* Size=0x10 */
+  /* 0x0000 */ public: float x;
+  /* 0x0004 */ public: float y;
+  /* 0x0008 */ public: float z;
+  /* 0x000c */ public: float w;
+};
+
 struct gameIdInst_s { /* Size=0x10 */
   /* 0x0000 */ public: dsLinkedListNode_s node;
   /* 0x0008 */ public: gameIdComplete_s complete;
@@ -576,8 +587,155 @@ struct actorMindGoal_Wait_s : public actorMindGoal_s { /* Size=0x20 */
   /* 0x001c */ public: actorMindGoal_Wait_Runtime_s runtime;
 };
 
-actorInst_s* __cdecl actorMindInstGetActor(const actorMindInst_s* mind);
-actorMindGoal_Status_e __cdecl _actorMindInitialiseGoal(actorMindInst_s* mind, actorMindGoal_s* goal);
-actorMindGoalId_e __cdecl actorMindGoalGetId(const actorMindGoal_s* goal);
-uint32_t* __cdecl mlRndGetGlobalPtr();
-float __cdecl mlRndInstFloatRange(unsigned int* pIj, float min, float max);
+struct dbTexture_s;
+struct dbVolume_s;
+struct sgGraph;
+struct dbShadowGeometry_s;
+struct dbScenegraph_s;
+struct dbTriHit_s;
+struct dbMoldGeometry_s;
+struct dbModelSwitch_s;
+struct dbLocator_s;
+struct dbModelJoint_s;
+struct dbModelClimbPole_s;
+struct dbMirror_s;
+struct dbLight_s;
+struct dbExtent_s;
+
+enum dbModelUnitId_e {
+  dbModelUnitId_Scenegraph = 0x0000,
+  dbModelUnitId_UNUSED_1 = 0x0001,
+  dbModelUnitId_Locator = 0x0002,
+  dbModelUnitId_Light = 0x0003,
+  dbModelUnitId_Volumes = 0x0004,
+  dbModelUnitId_Extents = 0x0005,
+  dbModelUnitId_TriHits = 0x0006,
+  dbModelUnitId_Textures = 0x0007,
+  dbModelUnitId_Joints = 0x0008,
+  dbModelUnitId_AStar = 0x0009,
+  dbModelUnitId_GardenSetup = 0x000a,
+  dbModelUnitId_Mirrors = 0x000b,
+  dbModelUnitId_HeatHaze = 0x000c,
+  dbModelUnitId_AStarLayer2 = 0x000d,
+  dbModelUnitId_AStarBreakConnectionLayer1 = 0x000e,
+  dbModelUnitId_AStarBreakConnectionLayer2 = 0x000f,
+  dbModelUnitId_ShadowGeometry = 0x0010,
+  dbModelUnitId_LightVolumes = 0x0011,
+  dbModelUnitId_ClimbPoles = 0x0012,
+  dbModelUnitId_MoldGeometry = 0x0013,
+  dbModelUnitId_HavokData = 0x0014,
+  dbModelUnitId_VertexPath = 0x0015,
+  dbModelUnitId_HavokMopp = 0x0016,
+  dbModelUnitId_HavokMesh = 0x0017,
+  dbModelUnitId_SwitchMaskNew = 0x0018,
+  dbModelUnitId_VehicleSkinGeometry = 0x0019,
+  dbModelUnitId_MAX = 0x001a
+};
+
+struct dbModelUnit_s { /* Size=0x8 */
+  /* 0x0000 */ public: dbModelUnitId_e id;
+  /* 0x0004 */ public: void* data;
+};
+
+struct vec3d { /* Size=0xc */
+  /* 0x0000 */ public: float x;
+  /* 0x0004 */ public: float y;
+  /* 0x0008 */ public: float z;
+};
+
+struct vec4d { /* Size=0x10 */
+  /* 0x0000 */ public: float x;
+  /* 0x0004 */ public: float y;
+  /* 0x0008 */ public: float z;
+  /* 0x000c */ public: float w;
+};
+
+struct dbLightVolumeUnit_s { /* Size=0x64 */
+  /* 0x0000 */ public: int32_t type;
+  /* 0x0004 */ public: vec3d position;
+  /* 0x0010 */ public: float radius;
+  /* 0x0014 */ public: vec4d colour;
+  /* 0x0024 */ public: int32_t jointIndex;
+  /* 0x0028 */ public: vec3d direction;
+  /* 0x0034 */ public: vec3d up;
+  /* 0x0040 */ public: float fov;
+  /* 0x0044 */ public: float lightShaftAttenuationRadius;
+  /* 0x0048 */ public: int32_t isMainLight;
+  /* 0x004c */ public: int32_t colourTextureIndex;
+  /* 0x0050 */ public: int32_t noiseTextureIndex;
+  /* 0x0054 */ public: float* keyframedIntensity;
+  /* 0x0058 */ public: int32_t keyframedIntensitySize;
+  /* 0x005c */ public: float animationDurationSecs;
+  /* 0x0060 */ public: float animationTimestepSecs;
+};
+
+struct dbModelTextureUnit_s { /* Size=0xc */
+  /* 0x0000 */ public: uint32_t numTextures;
+  /* 0x0004 */ public: dbTexture_s** textureHeaders;
+  /* 0x0008 */ public: assetId_s** textureAssetId;
+};
+
+struct dbLightVolume_s { /* Size=0x14 */
+  /* 0x0000 */ public: dbLightVolumeUnit_s* lightVolumeList;
+  /* 0x0004 */ public: int32_t lightVolumeListSize;
+  /* 0x0008 */ public: dbModelTextureUnit_s lightTextureList;
+};
+
+struct dbModelRuntime_s { /* Size=0x3c */
+  /* 0x0000 */ public: dbTriHit_s* trihits;
+  /* 0x0004 */ public: dbMirror_s* mirror;
+  /* 0x0008 */ public: sgGraph* sg;
+  /* 0x000c */ public: dbModelTextureUnit_s* texpalette;
+  /* 0x0010 */ public: dbShadowGeometry_s* shadowGeometry;
+  /* 0x0014 */ public: dbMoldGeometry_s* moldGeometry;
+  /* 0x0018 */ public: const dbModelClimbPole_s* climbPoles;
+  /* 0x001c */ public: const dbExtent_s* extent;
+  /* 0x0020 */ public: const dbModelJoint_s* joint;
+  /* 0x0024 */ public: const dbLight_s* light;
+  /* 0x0028 */ public: const dbLightVolume_s* lightVolume;
+  /* 0x002c */ public: const dbLocator_s* locator;
+  /* 0x0030 */ public: const dbScenegraph_s* sceneGraph;
+  /* 0x0034 */ public: const dbVolume_s* volume;
+  /* 0x0038 */ public: const dbModelSwitch_s* switchMask;
+};
+
+struct dbModel_s { /* Size=0x14 */
+  /* 0x0000 */ public: dbModelUnit_s* units;
+  /* 0x0004 */ public: uint32_t numUnits;
+  /* 0x0008 */ public: uint32_t flags;
+  /* 0x000c */ public: uint32_t headerSize;
+  /* 0x0010 */ public: dbModelRuntime_s* runtime;
+};
+
+void dbModelTextureUnitInit(dbModelTextureUnit_s* textureUnit, dbModel_s* model);
+void dbModelTextureUnitRelease(dbModelTextureUnit_s* textureUnit);
+
+actorInst_s* actorMindInstGetActor(const actorMindInst_s* mind);
+actorMindGoal_Status_e _actorMindInitialiseGoal(actorMindInst_s* mind,
+                                                actorMindGoal_s* goal);
+actorMindGoalId_e actorMindGoalGetId(const actorMindGoal_s* goal);
+uint32_t* mlRndGetGlobalPtr();
+float mlRndInstFloatRange(unsigned int* pIj, float min, float max);
+
+void dbLightVolumeInit(dbLightVolume_s* lightVolume, dbModel_s* model);
+void dbLightVolumeRelease(dbLightVolume_s* lightVolume);
+int dbLightVolumeGetNumLights(const dbLightVolume_s* lightVolume);
+int dbLightVolumeGetType(const dbLightVolume_s* lightVolume, int index);
+dbTexture_s* dbLightVolumeGetColourTexture(const dbLightVolume_s* lightVolume,
+                                           int index);
+dbTexture_s* dbLightVolumeGetNoiseTexture(const dbLightVolume_s* lightVolume, int index);
+float dbLightVolumeGetFOV(const dbLightVolume_s* lightVolume, int index);
+const mlVec* dbLightVolumeGetPosition(const dbLightVolume_s* lightVolume, int index);
+const mlVec* dbLightVolumeGetDirection(const dbLightVolume_s* lightVolume, int index);
+const mlVec* dbLightVolumeGetUpVector(const dbLightVolume_s* lightVolume, int index);
+const mlV4* dbLightVolumeGetColour(const dbLightVolume_s* lightVolume, int index);
+float dbLightVolumeGetRadius(const dbLightVolume_s* lightVolume, int index);
+float dbLightVolumeGetAttenuationDistance(const dbLightVolume_s* lightVolume, int index);
+int dbLightVolumeGetJointIndex(const dbLightVolume_s* lightVolume, int index);
+int dbLightVolumeGetIsMainLight(const dbLightVolume_s* lightVolume, int index);
+float dbLightVolumeGetAnimationDurationSecs(const dbLightVolume_s* lightVolume,
+                                            int index);
+float dbLightVolumeGetAnimationTimestepSecs(const dbLightVolume_s* lightVolume,
+                                            int index);
+const float* dbLightVolumeGetKeyframedIntensityPtr(const dbLightVolume_s* lightVolume,
+                                                   int index);

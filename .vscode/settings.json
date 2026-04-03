@@ -11,7 +11,7 @@
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
   // "editor.tabSize": 2,
-  "files.autoSave": "onFocusChange",
+  "files.autoSave": "off",
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.associations": {
@@ -22,4 +22,6 @@
   },
   // Disable C/C++ IntelliSense, use clangd instead
   "C_Cpp.intelliSenseEngine": "disabled",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
 }

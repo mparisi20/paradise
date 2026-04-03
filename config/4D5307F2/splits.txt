@@ -19,3 +19,7 @@ Sections:
 actor_mind_initialisegoal.cpp:
 	.pdata      start:0x82154828 end:0x82154830
 	.text       start:0x821BD630 end:0x821BD6CC
+
+db_lightvolume.cpp:
+	.pdata      start:0x82157BB0 end:0x82157BC0
+	.text       start:0x82217720 end:0x82217A94
