@@ -1,3 +1,5 @@
+Note: This project is currently on hold while I work on improving jeff's support for code-merged symbols and PDB-aided analysis.
+
 jeff Project Template
 ===============================
 
